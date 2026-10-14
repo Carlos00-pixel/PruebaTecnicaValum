@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Application.Features.Projects.Commands.CreateTask;
+using ProjectManagement.Application.Features.Projects.Commands.UpdateTaskStatus;
 using ProjectManagement.Application.Features.Projects.Queries.GetProjectTasks;
 using ProjectManagement.Application.Features.Projects.Queries.GetTaskById;
 using ProjectManagement.Domain.Enums;
@@ -54,6 +55,18 @@ namespace ProjectManagement.Api.Controllers
             return Ok(result);
         }
 
+        [HttpPatch("tasks/{id:guid}/status")]
+        public async Task<IActionResult> UpdateStatus(Guid id, [FromBody] UpdateTaskStatusRequest request, CancellationToken cancellationToken)
+        {
+            var command = new UpdateTaskStatusCommand(id, request.Status);
+
+            await _sender.Send(command, cancellationToken); 
+            
+            return NoContent();
+        }
+
         public record CreateTaskRequest(string Title, string? Description, ProjectManagement.Domain.Enums.TaskPriority Priority, DateTime? DueDate);
+
+        public record UpdateTaskStatusRequest(TaskItemStatus Status);
     }
 }
