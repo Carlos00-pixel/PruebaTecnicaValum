@@ -1,8 +1,13 @@
+using Microsoft.EntityFrameworkCore;
 using ProjectManagement.Infrastructure;
+using ProjectManagement.Infrastructure.Persistence;
+using ProjectManagement.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.AddApplication();
 
 builder.Services.AddInfrastructure(builder.Configuration);
 
@@ -12,6 +17,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+using(var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+    await dbContext.Database.MigrateAsync();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

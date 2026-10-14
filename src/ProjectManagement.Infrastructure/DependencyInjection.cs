@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ProjectManagement.Application.Abstractions;
 using ProjectManagement.Infrastructure.Persistence;
+using ProjectManagement.Infrastructure.Repositories;
 
 namespace ProjectManagement.Infrastructure
 {
@@ -12,6 +14,8 @@ namespace ProjectManagement.Infrastructure
             var connectionString = configuration.GetConnectionString("DefaultConnection") ?? "Data Source=projectmanagement.db";
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
+
+            services.AddScoped<IProjectRepository, ProjectRepository>();
 
             return services;
         }
