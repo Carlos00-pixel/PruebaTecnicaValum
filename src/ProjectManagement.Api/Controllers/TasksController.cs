@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Application.Features.Projects.Commands.CreateTask;
+using ProjectManagement.Application.Features.Projects.Queries.GetProjectTasks;
+using ProjectManagement.Domain.Enums;
 
 namespace ProjectManagement.Api.Controllers
 {
@@ -23,6 +25,22 @@ namespace ProjectManagement.Api.Controllers
             var taskId = await _sender.Send(command, cancellationToken);
 
             return Created($"/api/tasks/{taskId}", new { id = taskId });
+        }
+
+        [HttpGet("projects/{projectId:guid}/tasks")]
+        public async Task<IActionResult> GetByProject(
+            Guid projectId, 
+            [FromQuery] int page = 1,
+            [FromQuery] int  pageSize = 10,
+            [FromQuery] TaskItemStatus? status = null,
+            [FromQuery] TaskPriority? priority = null,
+            CancellationToken cancellationToken = default)
+        {
+            var query = new GetProjectTasksQuery(projectId, page, pageSize, status, priority);
+
+            var result = await _sender.Send(query, cancellationToken);
+
+            return Ok(result);
         }
 
         public record CreateTaskRequest(string Title, string? Description, ProjectManagement.Domain.Enums.TaskPriority Priority, DateTime? DueDate);
