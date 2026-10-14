@@ -5,7 +5,7 @@ using ProjectManagement.Domain.Enums;
 
 namespace ProjectManagement.Application.Features.Projects.Commands.UpdateTaskStatus
 {
-    internal class UpdateTaskStatusCommandHandler: IRequestHandler<UpdateTaskStatusCommand, Unit>
+    public class UpdateTaskStatusCommandHandler: IRequestHandler<UpdateTaskStatusCommand, Unit>
     {
         private readonly ITaskRepository _taskRepository;
 
