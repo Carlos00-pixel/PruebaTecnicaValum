@@ -7,5 +7,7 @@ namespace ProjectManagement.Application.Abstractions
         Task AddAsync(Project project, CancellationToken cancellationToken);
 
         Task SaveChangesAsync(CancellationToken cancellationToken);
+
+        Task<Project?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     }
 }

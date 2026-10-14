@@ -1,4 +1,5 @@
-﻿using ProjectManagement.Application.Abstractions;
+﻿using Microsoft.EntityFrameworkCore;
+using ProjectManagement.Application.Abstractions;
 using ProjectManagement.Domain.Entities;
 using ProjectManagement.Infrastructure.Persistence;
 
@@ -21,6 +22,11 @@ namespace ProjectManagement.Infrastructure.Repositories
         public async Task SaveChangesAsync(CancellationToken cancellationToken)
         {
             await _dbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<Project?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            return await _dbContext.Projects.Include(project => project.Tasks).FirstOrDefaultAsync(project => project.Id == id, cancellationToken);
         }
     }
 }

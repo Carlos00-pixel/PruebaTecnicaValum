@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Application.Features.Projects.Commands.CreateProject;
+using ProjectManagement.Application.Features.Projects.Queries.GetProjectById;
 
 namespace ProjectManagement.Api.Controllers
 {
@@ -24,11 +25,12 @@ namespace ProjectManagement.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = projectId }, new { id = projectId});
         }
 
-        // Endpoint provisional
         [HttpGet("{id:guid}")]
-        public IActionResult GetById(Guid id)
+        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
         {
-            return NotFound();
+            var project = await _sender.Send(new GetProjectByIdQuery(id), cancellationToken);
+
+            return Ok(project);
         }
     }
 }
