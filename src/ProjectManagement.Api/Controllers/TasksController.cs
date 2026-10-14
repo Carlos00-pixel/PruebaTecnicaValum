@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Application.Features.Projects.Commands.CreateTask;
+using ProjectManagement.Application.Features.Projects.Commands.DeleteTask;
 using ProjectManagement.Application.Features.Projects.Commands.UpdateTaskStatus;
 using ProjectManagement.Application.Features.Projects.Queries.GetProjectTasks;
 using ProjectManagement.Application.Features.Projects.Queries.GetTaskById;
@@ -59,6 +60,16 @@ namespace ProjectManagement.Api.Controllers
         public async Task<IActionResult> UpdateStatus(Guid id, [FromBody] UpdateTaskStatusRequest request, CancellationToken cancellationToken)
         {
             var command = new UpdateTaskStatusCommand(id, request.Status);
+
+            await _sender.Send(command, cancellationToken); 
+            
+            return NoContent();
+        }
+
+        [HttpDelete("tasks/{id:guid}")]
+        public async Task<IActionResult> Delete(Guid id, CancellationToken cancellationToken)
+        {
+            var command = new DeleteTaskCommand(id);
 
             await _sender.Send(command, cancellationToken); 
             

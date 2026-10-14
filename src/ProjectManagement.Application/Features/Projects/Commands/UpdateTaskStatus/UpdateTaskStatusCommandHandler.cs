@@ -2,11 +2,6 @@
 using ProjectManagement.Application.Abstractions;
 using ProjectManagement.Application.Exceptions;
 using ProjectManagement.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectManagement.Application.Features.Projects.Commands.UpdateTaskStatus
 {
