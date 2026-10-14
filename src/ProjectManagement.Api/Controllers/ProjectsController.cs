@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using ProjectManagement.Application.Features.Projects.Commands.ArchiveProject;
 using ProjectManagement.Application.Features.Projects.Commands.CreateProject;
 using ProjectManagement.Application.Features.Projects.Queries.GetProjectById;
 using ProjectManagement.Application.Features.Projects.Queries.GetProjects;
@@ -41,6 +42,14 @@ namespace ProjectManagement.Api.Controllers
             var result = await _sender.Send(new GetProjectsQuery(page, pageSize, status), cancellationToken);
 
             return Ok(result);
+        }
+
+        [HttpPatch("{id:guid}/archive")]
+        public async Task<IActionResult> Archive(Guid id, CancellationToken cancellationToken)
+        {
+            await _sender.Send(new ArchiveProjectCommand(id), cancellationToken);
+
+            return NoContent();
         }
     }
 }
