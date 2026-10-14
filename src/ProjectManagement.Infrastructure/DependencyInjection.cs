@@ -16,6 +16,7 @@ namespace ProjectManagement.Infrastructure
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite(connectionString));
 
             services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<ITaskRepository, TaskRepository>();
 
             return services;
         }
