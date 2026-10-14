@@ -1,4 +1,5 @@
 ﻿using ProjectManagement.Domain.Entities;
+using ProjectManagement.Domain.Enums;
 
 namespace ProjectManagement.Application.Abstractions
 {
@@ -9,5 +10,7 @@ namespace ProjectManagement.Application.Abstractions
         Task SaveChangesAsync(CancellationToken cancellationToken);
 
         Task<Project?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+
+        Task<(IReadOnlyList<Project> Items, int TotalCount)> GetPagedAsync(ProjectStatus? status, int page, int pageSize, CancellationToken cancellationToken);
     }
 }
