@@ -25,6 +25,11 @@ namespace ProjectManagement.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync(cancellationToken);
         }
 
+        public async Task<TaskItem?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            return await _dbContext.Tasks.AsNoTracking().FirstOrDefaultAsync(task => task.Id == id, cancellationToken);
+        }
+
         public async Task<(IReadOnlyList<TaskItem> Items, int TotalCount)> GetPagedAsync(Guid projectId, TaskItemStatus? status, TaskPriority? priority, int page, int pageSize, CancellationToken cancellationToken)
         {
             var query = _dbContext.Tasks.AsNoTracking().Where(t => t.ProjectId == projectId);

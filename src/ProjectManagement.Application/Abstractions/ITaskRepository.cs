@@ -10,5 +10,7 @@ namespace ProjectManagement.Application.Abstractions
         Task SaveChangesAsync(CancellationToken cancellationToken);
 
         Task<(IReadOnlyList<TaskItem> Items, int TotalCount)> GetPagedAsync(Guid projectId, TaskItemStatus? status, TaskPriority? priority, int page, int pageSize, CancellationToken cancellationToken);
+
+        Task<TaskItem?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
     }
 }

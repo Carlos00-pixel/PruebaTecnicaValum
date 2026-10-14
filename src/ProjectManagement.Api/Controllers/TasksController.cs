@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProjectManagement.Application.Features.Projects.Commands.CreateTask;
 using ProjectManagement.Application.Features.Projects.Queries.GetProjectTasks;
+using ProjectManagement.Application.Features.Projects.Queries.GetTaskById;
 using ProjectManagement.Domain.Enums;
 
 namespace ProjectManagement.Api.Controllers
@@ -40,6 +41,16 @@ namespace ProjectManagement.Api.Controllers
 
             var result = await _sender.Send(query, cancellationToken);
 
+            return Ok(result);
+        }
+
+        [HttpGet("tasks/{id:guid}")]
+        public async Task<IActionResult> GetById(Guid id, CancellationToken cancellationToken)
+        {
+            var query = new GetTaskByIdQuery(id);
+
+            var result = await _sender.Send(query, cancellationToken); 
+            
             return Ok(result);
         }
 

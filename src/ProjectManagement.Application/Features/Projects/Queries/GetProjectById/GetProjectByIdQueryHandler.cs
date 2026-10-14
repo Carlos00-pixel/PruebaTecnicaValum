@@ -20,7 +20,7 @@ namespace ProjectManagement.Application.Features.Projects.Queries.GetProjectById
 
             if(project is null)
             {
-                throw new NotFoundException($"No se ha encontrado el projecto con el identificado: {request.Id}.");
+                throw new NotFoundException($"No se ha encontrado el projecto con el identificador: {request.Id}.");
             }
 
             var tasks = project.Tasks;
