@@ -16,11 +16,13 @@ namespace ProjectManagement.Application.Features.Projects.Commands.DeleteTask
         {
             var task = await _taskRepository.GetByIdAsync(request.TaskId, cancellationToken);
 
-            if(task is null)
+            // Si la tarea no existe o ya está eliminada, se devuelve igualmente una respuesta satisfactoria.
+            if (task is null)
             {
                 return Unit.Value;
             }
 
+            // Realiza un borrado lógico para conservar el registro en la base de datos.
             task.IsDeleted = true;
 
             await _taskRepository.SaveChangesAsync(cancellationToken);

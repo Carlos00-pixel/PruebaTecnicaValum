@@ -26,11 +26,13 @@ namespace ProjectManagement.Application.Features.Projects.Commands.CreateTask
                 throw new NotFoundException($"No se ha encontrado el prooyecto con el identificador: {request.ProjectId}.");
             }
 
-            if(project.Status == ProjectStatus.Archived)
+            // Regla de negocio: no se permite crear tareas en proyectos archivados.
+            if (project.Status == ProjectStatus.Archived)
             {
                 throw new DomainException("No se pueden crear tareas en un proyecto archivado.");
             }
 
+            // Inicializa la tarea con estado pendiente y fecha de creación en UTC.
             var task = new TaskItem
             {
                 ProjectId = request.ProjectId,

@@ -15,6 +15,7 @@ namespace ProjectManagement.Api.Middleware
             _logger = logger;
         }
 
+        // Intercepta las excepciones y las transforma en respuestas HTTP con un formato uniforme.
         public async Task InvokeAsync(HttpContext context)
         {
             try
@@ -43,6 +44,7 @@ namespace ProjectManagement.Api.Middleware
             }
         }
 
+        // Devuelve los errores con una estructura JSON uniforme para toda la API.
         private static async Task WriteErrorAsync(HttpContext context, int statusCode, string error, string message, string[]? details = null)
         {
             context.Response.Clear();

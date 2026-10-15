@@ -25,7 +25,8 @@ namespace ProjectManagement.Application.Features.Projects.Commands.UpdateTaskSta
 
             task.Status = request.Status;
 
-            if(request.Status == TaskItemStatus.Done)
+            // Registra la fecha de finalización únicamente cuando la tarea está completada.
+            if (request.Status == TaskItemStatus.Done)
             {
                 task.CompletedAt = DateTime.UtcNow;
             }

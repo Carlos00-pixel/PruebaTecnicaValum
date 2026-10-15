@@ -22,6 +22,7 @@ namespace ProjectManagement.Infrastructure.Persistence
         {
             base.OnModelCreating(modelBuilder);
 
+            // Configura las restricciones y la relación entre proyectos y tareas.
             modelBuilder.Entity<Project>(entity =>
             {
                 entity.HasKey(p => p.Id);
@@ -39,6 +40,7 @@ namespace ProjectManagement.Infrastructure.Persistence
                 entity.HasMany(p => p.Tasks).WithOne(t => t.Project).HasForeignKey(t => t.ProjectId).IsRequired().OnDelete(DeleteBehavior.Restrict);
             });
 
+            // Define las restricciones de los campos y los valores predeterminados de las tareas.
             modelBuilder.Entity<TaskItem>(entity =>
             {
                 entity.HasKey(t => t.Id);
@@ -60,6 +62,7 @@ namespace ProjectManagement.Infrastructure.Persistence
                 entity.Property(t => t.IsDeleted).IsRequired().HasDefaultValue(false);
             });
 
+            // Excluye automáticamente las tareas eliminadas de las consultas habituales.
             modelBuilder.Entity<TaskItem>().HasQueryFilter(t => !t.IsDeleted);
         }
     }

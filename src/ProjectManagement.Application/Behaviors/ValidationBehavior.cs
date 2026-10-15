@@ -7,6 +7,7 @@ namespace ProjectManagement.Application.Behaviors
     {
         private readonly IEnumerable<IValidator<TRequest>> _validators;
 
+        // Ejecuta las validaciones de la petición antes de que llegue al handler.
         public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
         {
             _validators = validators;
@@ -25,7 +26,8 @@ namespace ProjectManagement.Application.Behaviors
                 failures.AddRange(result.Errors);
             }
 
-            if(failures.Count > 0)
+            // Si hay errores de validación, se detiene la ejecución y se lanza una excepción.
+            if (failures.Count > 0)
             {
                 throw new ValidationException(failures);
             }

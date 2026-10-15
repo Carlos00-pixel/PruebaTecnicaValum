@@ -1,4 +1,3 @@
-
 .vs/
 **/bin/
 **/obj/
@@ -10,3 +9,7 @@ TestResults/
 *.db
 *.db-shm
 *.db-wal
+
+# Archivos de log generados por la aplicacion
+logs/*.log
+logs/*.log.*
